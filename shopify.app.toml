@@ -1,0 +1,41 @@
+# Avoid writing to toml directly. Use your .env file instead
+
+name = "custom order channel"
+handle = "custom-order-channel"
+client_id = "c0af1ef3a54a361561d52ce40869deb5"
+application_url = "https://b0e0-2401-4900-8398-2736-5804-7950-63fc-9418.ngrok-free.app"
+embedded = true
+extension_directories = [ "extension/extensions/**" ]
+
+[auth]
+redirect_urls = [
+  "https://b0e0-2401-4900-8398-2736-5804-7950-63fc-9418.ngrok-free.app/api/"
+]
+
+[access_scopes]
+scopes = "write_draft_orders,read_customers,read_products"
+optional_scopes = [ "write_products" ]
+use_legacy_install_flow = false
+
+[webhooks]
+api_version = "2025-01"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/uninstalled" ]
+  uri = "https://b0e0-2401-4900-8398-2736-5804-7950-63fc-9418.ngrok-free.app/api/webhooks/app_uninstalled"
+
+  [webhooks.privacy_compliance]
+  customer_data_request_url = "https://b0e0-2401-4900-8398-2736-5804-7950-63fc-9418.ngrok-free.app/api/gdpr/customers_data_request"
+  customer_deletion_url = "https://b0e0-2401-4900-8398-2736-5804-7950-63fc-9418.ngrok-free.app/api/gdpr/customers_redact"
+  shop_deletion_url = "https://b0e0-2401-4900-8398-2736-5804-7950-63fc-9418.ngrok-free.app/api/gdpr/shop_redact"
+
+[app_proxy]
+url = "https://b0e0-2401-4900-8398-2736-5804-7950-63fc-9418.ngrok-free.app/api/proxy_route"
+prefix = "apps"
+subpath = "order-channel"
+
+[pos]
+embedded = false
+
+[build]
+include_config_on_deploy = true
